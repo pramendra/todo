@@ -1,16 +1,49 @@
 'use strict';
 
-const electron  = require('electron');
-const fs        = require('fs');
-const constants = JSON.parse(fs.readFileSync(`${__dirname}/constants.json`, 'utf8'))
+const electron      = require('electron');
+const {Menu}        = require('electron')
+const fs            = require('fs');
+const constants     = JSON.parse(fs.readFileSync(`${__dirname}/constants.json`, 'utf8'))
+const template = [
+  {
+    label: "Application",
+    submenu: [
+      { label: "About Application", selector: "Todo App" },
+      { type: "separator" },
+      {
+        label: "Quit",
+        accelerator: "Command+Q",
+        click: function() {
+          app.quit();
+        }
+      }
+    ]
+  },
+  {
+    label: "Edit",
+    submenu: [
+      { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+      { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+      { type: "separator" },
+      { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+      { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+      { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+      {
+        label: "Select All",
+        accelerator: "CmdOrCtrl+A",
+        selector: "selectAll:"
+      }
+    ]
+  }
+];
 
 const day = 86400000;
 const app = electron.app;
 const settings = {
   center: true,
-  width: 950,
+  width: 960,
   height: 750,
-  fullscreen: true,
+  fullscreen: false,
   resizable: true,
   icon: `${__dirname}/icons/icon.png`
 };
@@ -72,6 +105,8 @@ function createWindow() {
   mainWindow.webContents.clearHistory();
   mainWindow.loadURL(constants.URL, headers);
   mainWindow.setMenu(null);
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+
   mainWindow.on('closed', function () {
     mainWindow = null;
   });
