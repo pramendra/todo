@@ -25,10 +25,10 @@ npm i electron-packager -g
 
 ```
 // build for window and macOS
-// electron-packager ./todo todo —platform=darwin,win32 —arch=x64 —version=1.6.8 —overwrite
+// electron-packager ./todo todo --platform=darwin,win32 --arch=x64 --version=1.6.8 --overwrite
 
 // build for macOS
-electron-packager ./todo todo —platform=darwin —arch=x64 —version=1.6.8 —overwrite
+electron-packager ./todo todo --platform=darwin --arch=x64 --version=1.6.8 --overwrite
 open todo-darwin-x64/todo
 ```
 ### release versions reference
